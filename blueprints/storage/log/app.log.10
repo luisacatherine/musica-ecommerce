@@ -1,0 +1,79 @@
+[2019-02-20 13:57:09,386{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}} 200
+[2019-02-20 13:57:11,755{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"client_id": 3, "client_key": "judulbaru4r1234 ", "client_secret": "rahasia", "status": 1}} 200
+[2019-02-20 13:57:13,619{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"status": "NOT_FOUND", "message": "Client not found"}} 404
+[2019-02-20 13:57:15,782{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}} 200
+[2019-02-20 13:57:37,940{/home/alphatech/.local/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /client/2 [PUT]
+Traceback (most recent call last):
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1236, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 536, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: NOT NULL constraint failed: client.client_secret
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/alphatech/.local/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/alphatech/.local/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/flask_restful/__init__.py", line 458, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/flask/views.py", line 88, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/flask_restful/__init__.py", line 573, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/client/resources.py", line 47, in put
+    db.session.commit()
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
+    return getattr(self.registry(), name)(*args, **kwargs)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 1023, in commit
+    self.transaction.commit()
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 487, in commit
+    self._prepare_impl()
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 466, in _prepare_impl
+    self.session.flush()
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2446, in flush
+    self._flush(objects)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2584, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 67, in __exit__
+    compat.reraise(exc_type, exc_value, exc_tb)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 277, in reraise
+    raise value
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2544, in _flush
+    flush_context.execute()
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 416, in execute
+    rec.execute(self)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 583, in execute
+    uow,
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 236, in save_obj
+    update,
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 976, in _emit_update_statements
+    statement, multiparams
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 980, in execute
+    return meth(self, multiparams, params)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 273, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1099, in _execute_clauseelement
+    distilled_params,
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1240, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1458, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 296, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 276, in reraise
+    raise value.with_traceback(tb)
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1236, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 536, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: client.client_secret [SQL: 'UPDATE client SET client_key=?, client_secret=?, status=? WHERE client.client_id = ?'] [parameters: ('keyy', None, '1', 2)] (Background on this error at: http://sqlalche.me/e/gkpj)
+[2019-02-20 13:57:37,950{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:27} WARNING - REQUEST LOG	{"request": {"client_key": "keyy", "status": 1}, "response": {"message": "Internal Server Error"}} 500
+[2019-02-20 13:59:27,448{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": [{"id": 1, "title": "judul baru", "isbn": 24374983749, "writer": "dinda"}, {"id": 2, "title": "judul baru lagi", "isbn": 2437492319, "writer": "dinda juga"}, {"id": 3, "title": "judul baru lagi", "isbn": 112319, "writer": "dinda juga"}, {"id": 5, "title": "judul baru4 ", "isbn": 112319, "writer": "dinda juga"}, {"id": 6, "title": "judul baru4r123 ", "isbn": 112319, "writer": "dinda juga"}]} 200
+[2019-02-20 13:59:35,681{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {"title": "judul baru"}, "response": [{"id": 1, "title": "judul baru", "isbn": 24374983749, "writer": "dinda"}, {"id": 2, "title": "judul baru lagi", "isbn": 2437492319, "writer": "dinda juga"}, {"id": 3, "title": "judul baru lagi", "isbn": 112319, "writer": "dinda juga"}, {"id": 5, "title": "judul baru4 ", "isbn": 112319, "writer": "dinda juga"}, {"id": 6, "title": "judul baru4r123 ", "isbn": 112319, "writer": "dinda juga"}]} 200
+[2019-02-20 13:59:43,520{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {"title": "lagi"}, "response": [{"id": 2, "title": "judul baru lagi", "isbn": 2437492319, "writer": "dinda juga"}, {"id": 3, "title": "judul baru lagi", "isbn": 112319, "writer": "dinda juga"}]} 200
+[2019-02-20 14:00:02,493{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": [{"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}, {"client_id": 3, "client_key": "judulbaru4r1234 ", "client_secret": "rahasia", "status": 1}]} 200
+[2019-02-20 14:00:18,510{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": [{"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}, {"client_id": 3, "client_key": "judulbaru4r1234 ", "client_secret": "rahasia", "status": 1}]} 200
+[2019-02-20 14:00:29,291{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:27} WARNING - REQUEST LOG	{"request": {"client_key": "keyy", "client_secret": "rahasia", "status": 1}, "response": {"client_id": 4, "client_key": "keyy", "client_secret": "rahasia", "status": 1}} 200
