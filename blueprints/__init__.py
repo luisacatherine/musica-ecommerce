@@ -12,7 +12,7 @@ from datetime import timedelta
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1:3306/musica_project'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'SFsieaaBsLEpecP675r243faM8oSB2hV'
+app.config['JWT_SECRET_KEY'] = 'musicaAdmin'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
 
 jwt = JWTManager(app)
@@ -49,7 +49,7 @@ from blueprints.auth import bp_auth
 
 app.register_blueprint(bp_client, url_prefix='/client')
 app.register_blueprint(bp_user, url_prefix='/user')
-app.register_blueprint(bp_auth, url_prefix='/token')
+app.register_blueprint(bp_auth, url_prefix='/login')
 # app.register_blueprint(bp_produk, url_prefix='/produk')
 # app.register_blueprint(bp_penjual, url_prefix='/penjual')
 

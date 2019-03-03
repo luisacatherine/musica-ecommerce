@@ -1,79 +1,22 @@
-[2019-02-20 13:57:09,386{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}} 200
-[2019-02-20 13:57:11,755{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"client_id": 3, "client_key": "judulbaru4r1234 ", "client_secret": "rahasia", "status": 1}} 200
-[2019-02-20 13:57:13,619{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"status": "NOT_FOUND", "message": "Client not found"}} 404
-[2019-02-20 13:57:15,782{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": {"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}} 200
-[2019-02-20 13:57:37,940{/home/alphatech/.local/lib/python3.6/site-packages/flask/app.py:1761} ERROR - Exception on /client/2 [PUT]
-Traceback (most recent call last):
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1236, in _execute_context
-    cursor, statement, parameters, context
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 536, in do_execute
-    cursor.execute(statement, parameters)
-sqlite3.IntegrityError: NOT NULL constraint failed: client.client_secret
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/alphatech/.local/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/alphatech/.local/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/flask_restful/__init__.py", line 458, in wrapper
-    resp = resource(*args, **kwargs)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/flask/views.py", line 88, in view
-    return self.dispatch_request(*args, **kwargs)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/flask_restful/__init__.py", line 573, in dispatch_request
-    resp = meth(*args, **kwargs)
-  File "/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/client/resources.py", line 47, in put
-    db.session.commit()
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/scoping.py", line 162, in do
-    return getattr(self.registry(), name)(*args, **kwargs)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 1023, in commit
-    self.transaction.commit()
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 487, in commit
-    self._prepare_impl()
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 466, in _prepare_impl
-    self.session.flush()
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2446, in flush
-    self._flush(objects)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2584, in _flush
-    transaction.rollback(_capture_exception=True)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/langhelpers.py", line 67, in __exit__
-    compat.reraise(exc_type, exc_value, exc_tb)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 277, in reraise
-    raise value
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/session.py", line 2544, in _flush
-    flush_context.execute()
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 416, in execute
-    rec.execute(self)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/unitofwork.py", line 583, in execute
-    uow,
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 236, in save_obj
-    update,
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/orm/persistence.py", line 976, in _emit_update_statements
-    statement, multiparams
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 980, in execute
-    return meth(self, multiparams, params)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/sql/elements.py", line 273, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1099, in _execute_clauseelement
-    distilled_params,
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1240, in _execute_context
-    e, statement, parameters, cursor, context
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1458, in _handle_dbapi_exception
-    util.raise_from_cause(sqlalchemy_exception, exc_info)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 296, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/util/compat.py", line 276, in reraise
-    raise value.with_traceback(tb)
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/base.py", line 1236, in _execute_context
-    cursor, statement, parameters, context
-  File "/home/alphatech/.local/lib/python3.6/site-packages/sqlalchemy/engine/default.py", line 536, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: client.client_secret [SQL: 'UPDATE client SET client_key=?, client_secret=?, status=? WHERE client.client_id = ?'] [parameters: ('keyy', None, '1', 2)] (Background on this error at: http://sqlalche.me/e/gkpj)
-[2019-02-20 13:57:37,950{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:27} WARNING - REQUEST LOG	{"request": {"client_key": "keyy", "status": 1}, "response": {"message": "Internal Server Error"}} 500
-[2019-02-20 13:59:27,448{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": [{"id": 1, "title": "judul baru", "isbn": 24374983749, "writer": "dinda"}, {"id": 2, "title": "judul baru lagi", "isbn": 2437492319, "writer": "dinda juga"}, {"id": 3, "title": "judul baru lagi", "isbn": 112319, "writer": "dinda juga"}, {"id": 5, "title": "judul baru4 ", "isbn": 112319, "writer": "dinda juga"}, {"id": 6, "title": "judul baru4r123 ", "isbn": 112319, "writer": "dinda juga"}]} 200
-[2019-02-20 13:59:35,681{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {"title": "judul baru"}, "response": [{"id": 1, "title": "judul baru", "isbn": 24374983749, "writer": "dinda"}, {"id": 2, "title": "judul baru lagi", "isbn": 2437492319, "writer": "dinda juga"}, {"id": 3, "title": "judul baru lagi", "isbn": 112319, "writer": "dinda juga"}, {"id": 5, "title": "judul baru4 ", "isbn": 112319, "writer": "dinda juga"}, {"id": 6, "title": "judul baru4r123 ", "isbn": 112319, "writer": "dinda juga"}]} 200
-[2019-02-20 13:59:43,520{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {"title": "lagi"}, "response": [{"id": 2, "title": "judul baru lagi", "isbn": 2437492319, "writer": "dinda juga"}, {"id": 3, "title": "judul baru lagi", "isbn": 112319, "writer": "dinda juga"}]} 200
-[2019-02-20 14:00:02,493{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": [{"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}, {"client_id": 3, "client_key": "judulbaru4r1234 ", "client_secret": "rahasia", "status": 1}]} 200
-[2019-02-20 14:00:18,510{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:24} WARNING - REQUEST LOG	{"request": {}, "response": [{"client_id": 2, "client_key": "judulbaru4r123 ", "client_secret": "rahasia", "status": 1}, {"client_id": 3, "client_key": "judulbaru4r1234 ", "client_secret": "rahasia", "status": 1}]} 200
-[2019-02-20 14:00:29,291{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:27} WARNING - REQUEST LOG	{"request": {"client_key": "keyy", "client_secret": "rahasia", "status": 1}, "response": {"client_id": 4, "client_key": "keyy", "client_secret": "rahasia", "status": 1}} 200
+[2019-02-20 21:23:24,781{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"msg": "Missing Authorization Header"}} 401
+[2019-02-20 21:23:32,036{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"message": {"client_key": "Missing required parameter in the query string"}}} 400
+[2019-02-20 21:23:59,142{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {"client_key": "alterra", "client_secret": "masukaja"}, "response": {"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTA2NzI2MzksIm5iZiI6MTU1MDY3MjYzOSwianRpIjoiOWFhNzMwNTMtZGYyYy00NTI3LThmMjItN2RjNjgzOTA2NDQyIiwiZXhwIjoxNTUwNzU5MDM5LCJpZGVudGl0eSI6eyJjbGllbnRfaWQiOjMsImNsaWVudF9rZXkiOiJhbHRlcnJhIiwiY2xpZW50X3NlY3JldCI6Im1hc3VrYWphIiwic3RhdHVzIjoxfSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIiwidXNlcl9jbGFpbXMiOnsiY2xpZW50X2lkIjozLCJjbGllbnRfa2V5IjoiYWx0ZXJyYSIsImNsaWVudF9zZWNyZXQiOiJtYXN1a2FqYSIsInN0YXR1cyI6MX19.FRPPd6OL_b5PyZLuelb6Z3tST-REBd9x8OPPcObuhkw"}} 200
+[2019-02-20 21:24:22,568{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": [{"id": 1, "book_id": 2, "user_id": 2, "return_date": "ada", "posted_by": null, "user": {"id": 2, "name": "cathy", "age": 24, "sex": "female", "client_id": 2}, "book": {"id": 2, "title": "juduaaaal", "isbn": 40993, "writer": "dinda k  aaa"}}, {"id": 2, "book_id": 2, "user_id": 2, "return_date": "ada", "posted_by": null, "user": {"id": 2, "name": "cathy", "age": 24, "sex": "female", "client_id": 2}, "book": {"id": 2, "title": "juduaaaal", "isbn": 40993, "writer": "dinda k  aaa"}}, {"id": 3, "book_id": 1, "user_id": 2, "return_date": "adafa", "posted_by": null, "user": {"id": 2, "name": "cathy", "age": 24, "sex": "female", "client_id": 2}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}]} 200
+[2019-02-20 21:25:36,433{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:37} WARNING - REQUEST LOG	{"request": {"book_id": 1, "user_id": 1, "return_date": "tesssss"}, "response": {"id": 4, "book_id": 1, "user_id": 1, "return_date": "tesssss", "posted_by": "3", "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}} 200
+[2019-02-20 21:25:53,730{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": [{"id": 1, "book_id": 2, "user_id": 2, "return_date": "ada", "posted_by": null, "user": {"id": 2, "name": "cathy", "age": 24, "sex": "female", "client_id": 2}, "book": {"id": 2, "title": "juduaaaal", "isbn": 40993, "writer": "dinda k  aaa"}}, {"id": 2, "book_id": 2, "user_id": 2, "return_date": "ada", "posted_by": null, "user": {"id": 2, "name": "cathy", "age": 24, "sex": "female", "client_id": 2}, "book": {"id": 2, "title": "juduaaaal", "isbn": 40993, "writer": "dinda k  aaa"}}, {"id": 3, "book_id": 1, "user_id": 2, "return_date": "adafa", "posted_by": null, "user": {"id": 2, "name": "cathy", "age": 24, "sex": "female", "client_id": 2}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}, {"id": 4, "book_id": 1, "user_id": 1, "return_date": "tesssss", "posted_by": "3", "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}]} 200
+[2019-02-20 21:26:10,212{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"id": 3, "book_id": 1, "user_id": 2, "return_date": "adafa", "posted_by": null, "user": {"id": 2, "name": "cathy", "age": 24, "sex": "female", "client_id": 2}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}} 200
+[2019-02-20 21:26:12,990{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"id": 4, "book_id": 1, "user_id": 1, "return_date": "tesssss", "posted_by": "3", "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}} 200
+[2019-02-20 21:28:48,477{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": []} 200
+[2019-02-20 21:35:27,544{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": []} 200
+[2019-02-20 21:35:51,833{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:37} WARNING - REQUEST LOG	{"request": {"book_id": 1, "user_id": 1, "return_date": "tesssss"}, "response": {"message": {"return_date": "'module' object is not callable"}}} 400
+[2019-02-20 22:03:21,468{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:37} WARNING - REQUEST LOG	{"request": {"book_id": 1, "user_id": 1}, "response": {"id": 1, "book_id": 1, "user_id": 1, "return_date": "Wed, 20 Feb 2019 22:03:21 -0000", "posted_by": 3, "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}} 200
+[2019-02-20 22:07:04,919{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:37} WARNING - REQUEST LOG	{"request": {"book_id": 1, "user_id": 1}, "response": {"id": 2, "book_id": 1, "user_id": 1, "return_date": "Sat, 23 Feb 2019 22:07:05 -0000", "posted_by": 3, "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}} 200
+[2019-02-20 22:09:46,861{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": [{"id": 1, "book_id": 1, "user_id": 1, "return_date": "Wed, 20 Feb 2019 22:03:21 -0000", "posted_by": 3, "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}, {"id": 2, "book_id": 1, "user_id": 1, "return_date": "Sat, 23 Feb 2019 22:07:05 -0000", "posted_by": 3, "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}]} 200
+[2019-02-20 22:09:50,563{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"id": 1, "book_id": 1, "user_id": 1, "return_date": "Wed, 20 Feb 2019 22:03:21 -0000", "posted_by": 3, "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}} 200
+[2019-02-20 22:10:02,121{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": [{"id": 1, "book_id": 1, "user_id": 1, "return_date": "Wed, 20 Feb 2019 22:03:21 -0000", "posted_by": 3, "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}, {"id": 2, "book_id": 1, "user_id": 1, "return_date": "Sat, 23 Feb 2019 22:07:05 -0000", "posted_by": 3, "user": {"id": 1, "name": "luisa", "age": 24, "sex": "female", "client_id": 1}, "book": {"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}}]} 200
+[2019-02-21 13:54:52,373{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"kota": "Jakarta", "organisasi": "AS38320 PT Maxindo Mitra Solusi, Jl Kelapa Puan Raya Blok FU 1/9, Jakarta", "zona_waktu": "Asia/Jakarta", "cuaca_sekarang": {"tanggal": "2019-02-21:06", "temperatur": 32}}} 200
+[2019-02-21 13:56:55,758{/home/alphatech/Documents/practice_rest/rest_training/rest_svc/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {"ip": "66.96.237.5"}, "response": {"kota": "Malang", "organisasi": "AS63859 PT. Eka Mas Republik", "zona_waktu": "Asia/Jakarta", "cuaca_sekarang": {"tanggal": "2019-02-21:06", "temperatur": 27.8}}} 200
+[2019-02-27 13:23:20,545{/home/alphatech/Documents/personal-project/env-musica/project/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"msg": "Token has expired"}} 401
+[2019-02-27 13:23:47,560{/home/alphatech/Documents/personal-project/env-musica/project/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": [{"id": 1, "title": "judul baru", "isbn": 8909890, "writer": "dinda"}, {"id": 2, "title": "juduaaaal", "isbn": 40993, "writer": "dinda k  aaa"}, {"id": 3, "title": "juduaadaaal", "isbn": 40993, "writer": "dinda k  aaa"}]} 200
+[2019-02-27 13:26:20,053{/home/alphatech/Documents/personal-project/env-musica/project/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"message": "The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again."}} 404
+[2019-02-27 13:26:20,141{/home/alphatech/Documents/personal-project/env-musica/project/blueprints/__init__.py:34} WARNING - REQUEST LOG	{"request": {}, "response": {"message": "The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again."}} 404

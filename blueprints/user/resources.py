@@ -29,8 +29,8 @@ class UserResource(Resource):
             qry = User.query
 
             if args['kota'] is not None:
-                qry = qry.filter_by(kota=args['kota'])
-            
+                qry = qry.filter(User.kota.ilike('%{}%'.format(args['kota'])))
+
             if args['gender'] is not None:
                 qry = qry.filter_by(gender=args['gender'])
 
@@ -43,19 +43,17 @@ class UserResource(Resource):
             if qry is not None:
                 return marshal(qry, User.response_fields), 200, {'Content-Type': 'application/json'}
             return {'status': 'NOT_FOUND', 'message': 'User not found'}, 404, {'Content-Type': 'application/json'}
-
+    
     @jwt_required
     def put(self, id):
         jwtClaims = get_jwt_claims()
         data_kota = str(Kota.query.all())
         parser = reqparse.RequestParser()
         parser.add_argument('name', location='json')
-        parser.add_argument('age', location='json')
+        parser.add_argument('age', location='json', type=int)
         parser.add_argument('gender', location='json', choices=['m', 'f'])
-        parser.add_argument('email', location='json')
         parser.add_argument('alamat', location='json')
         parser.add_argument('kota', location='json', choices=data_kota)
-        parser.add_argument('client_id', location='json')
         args = parser.parse_args()
         qry = User.query.get(id)
         if args['name'] is not None:
@@ -64,8 +62,6 @@ class UserResource(Resource):
             qry.age = args['age']
         if args['gender'] is not None:
             qry.gender = args['gender']
-        if args['email'] is not None:
-            qry.email = args['email']
         if args['alamat'] is not None:
             qry.alamat = args['alamat']
         if args['kota'] is not None:
@@ -82,16 +78,16 @@ class UserResource(Resource):
     @jwt_required
     def delete(self, id):
         qry = User.query.get(id)
+        seller = Client.query.filter(Client.client_id == (User.query.filter(User.id == id).first().client_id)).first()
         if qry is not None:
             db.session.delete(qry)
+            db.session.delete(seller)
             db.session.commit()
             return 'deleted', 200, {'Content-Type': 'application/json'}
         else:
             return {'status': 'NOT_FOUND', 'message': 'User not found'}, 404, {'Content-Type': 'application/json'}
 
-    @jwt_required
     def post(self):
-        jwtClaims = get_jwt_claims()
         data_kota = str(Kota.query.all())
         parser = reqparse.RequestParser()
         parser.add_argument('name', location='json', required=True)
@@ -100,12 +96,18 @@ class UserResource(Resource):
         parser.add_argument('email', location='json', required=True)
         parser.add_argument('alamat', location='json', required=True)
         parser.add_argument('kota', location='json', choices=data_kota, required=True)
+        parser.add_argument('password', location='json', required=True)
         args = parser.parse_args()
-        args['client_id'] = jwtClaims['client_id']
-        args['id_kota'] = Kota.query.filter(Kota.nama_kota == args['kota']).first().id
+        if Client.query.filter(Client.email == args['email']).first() is not None:
+            return {'message': 'This email is already registered, please use another email'}, 500, {'Content-Type': 'application/json'}
         args['created_at'] = datetime.datetime.now()
         args['updated_at'] = datetime.datetime.now()
-        user = User(None, args['name'], args['age'], args['gender'], args['email'], args['alamat'], args['kota'], args['id_kota'], args['client_id'], args['created_at'], args['updated_at'])
+        client = Client(None, args['email'], args['password'], 'user', args['created_at'], args['updated_at'])
+        db.session.add(client)
+        db.session.commit()
+        args['client_id'] = Client.query.filter(Client.email == args['email']).first().client_id
+        args['id_kota'] = Kota.query.filter(Kota.nama_kota == args['kota']).first().id
+        user = User(None, args['name'], args['age'], args['gender'], args['alamat'], args['kota'], args['id_kota'], args['client_id'], args['created_at'], args['updated_at'])
         db.session.add(user)
         db.session.commit()
         return marshal(user, User.response_fields), 200, {'Content-Type': 'application/json'}

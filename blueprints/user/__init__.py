@@ -1,9 +1,8 @@
-import logging
-import random
 from blueprints import db
 from flask_restful import fields
 from sqlalchemy.orm import backref
 from blueprints.location import *
+from blueprints.client import *
 import datetime
 
 class User(db.Model):
@@ -13,7 +12,6 @@ class User(db.Model):
     name = db.Column(db.String(50), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     gender = db.Column(db.String(1), nullable=False)
-    email = db.Column(db.String(50), nullable=False, unique=True)
     alamat = db.Column(db.String(100), nullable=False)
     kota = db.Column(db.String(30), nullable=False)
     id_kota = db.Column(db.Integer, nullable=False)
@@ -27,7 +25,6 @@ class User(db.Model):
         'name': fields.String,
         'age': fields.Integer,
         'gender': fields.String,
-        'email': fields.String,
         'alamat': fields.String,
         'kota': fields.String,
         'id_kota': fields.Integer,
@@ -36,12 +33,11 @@ class User(db.Model):
         'updated_at': fields.DateTime
     }
 
-    def __init__(self, id, name, age, gender, email, alamat, kota, id_kota, client_id, created_at, updated_at):
+    def __init__(self, id, name, age, gender, alamat, kota, id_kota, client_id, created_at, updated_at):
         self.id = id
         self.name = name
         self.age = age
         self.gender = gender
-        self.email = email
         self.alamat = alamat
         self.kota = kota
         self.id_kota = id_kota

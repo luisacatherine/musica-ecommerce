@@ -9,13 +9,13 @@ api = Api(bp_auth)
 
 class CreateTokenResources(Resource):
 
-    def get(self):
+    def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument('client_key', location='json', required=True)
-        parser.add_argument('client_secret', location='json', required=True)
+        parser.add_argument('email', location='json', required=True)
+        parser.add_argument('password', location='json', required=True)
         args = parser.parse_args()
 
-        qry = Client.query.filter_by(client_key=args['client_key']).filter_by(client_secret=args['client_secret']).first()
+        qry = Client.query.filter_by(email=args['email']).filter_by(password=args['password']).first()
         if qry is not None:
             token = create_access_token(marshal(qry, Client.response_fields))
         else:
