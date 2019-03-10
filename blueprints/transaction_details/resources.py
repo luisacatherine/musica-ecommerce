@@ -23,6 +23,9 @@ class TransactionDetailResource(Resource):
         parser.add_argument('product_id', location='json', required=True, type=int)
         parser.add_argument('qty', location='json', required=True, type=int)
         args = parser.parse_args()
+        qry = Items.query.get(args['product_id'])
+        if qry is None:
+            return {'status': 'NOT_FOUND', 'message': 'Items not found'}, 404, {'Content-Type': 'application/json'}
         buyer_id = jwtClaims['client_id']
         transaction_id = Transaction.query.filter(Transaction.status_transaksi == 0).filter(Transaction.user_id == buyer_id).first().id
         seller_id = Items.query.filter(Items.id == args['product_id']).first().id_penjual

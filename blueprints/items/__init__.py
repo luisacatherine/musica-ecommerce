@@ -1,6 +1,7 @@
 from blueprints import db
 from flask_restful import fields
 import datetime
+from blueprints.seller import *
 
 class Items(db.Model):
     __tablename__ = "items"

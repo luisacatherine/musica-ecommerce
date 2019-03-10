@@ -62,13 +62,16 @@ class TransactionResource(Resource):
     @jwt_required
     def post(self):
         jwtClaims = get_jwt_claims()
-        user_id = jwtClaims['client_id']
-        created_at = datetime.datetime.now()
-        updated_at = datetime.datetime.now()
-        transaction = Transaction(None, ' ', user_id, ' ', ' ', 0, 0, 0, 0, 0, 0, created_at, updated_at)
-        db.session.add(transaction)
-        db.session.commit()
-        return marshal(transaction, Transaction.response_fields), 200, {'Content-Type': 'application/json'}
+        if jwtClaims['status'] == 'user':
+            user_id = jwtClaims['client_id']
+            created_at = datetime.datetime.now()
+            updated_at = datetime.datetime.now()
+            transaction = Transaction(None, ' ', user_id, ' ', ' ', 0, 0, 0, 0, 0, 0, created_at, updated_at)
+            db.session.add(transaction)
+            db.session.commit()
+            return marshal(transaction, Transaction.response_fields), 200, {'Content-Type': 'application/json'}
+        else:
+            return {'status': 'UNAUTHORIZED', 'message': 'Not Authorized'}, 401, {'Content-Type': 'application/json'}
 
     def hitungOngkir(self, origin, destination, weight, courier):
         host = 'https://api.rajaongkir.com/starter'
