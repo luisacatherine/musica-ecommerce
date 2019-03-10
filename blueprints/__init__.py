@@ -44,12 +44,20 @@ def add_claims_to_access_token(identity):
 from blueprints.client.resources import bp_client
 from blueprints.user.resources import bp_user
 from blueprints.auth import bp_auth
+from blueprints.seller.resources import bp_seller
+from blueprints.items.resources import bp_item
+from blueprints.transaction_details.resources import bp_transdetail
+from blueprints.transaction.resources import bp_transaction
 # from blueprints.product.resources import bp_produk
 # from blueprints.penjual.resources import bp_penjual
 
 app.register_blueprint(bp_client, url_prefix='/client')
 app.register_blueprint(bp_user, url_prefix='/user')
 app.register_blueprint(bp_auth, url_prefix='/login')
+app.register_blueprint(bp_seller, url_prefix='/seller')
+app.register_blueprint(bp_item, url_prefix='/item')
+app.register_blueprint(bp_transdetail, url_prefix='/transdetail')
+app.register_blueprint(bp_transaction, url_prefix='/transaction')
 # app.register_blueprint(bp_produk, url_prefix='/produk')
 # app.register_blueprint(bp_penjual, url_prefix='/penjual')
 

@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+body,
+p {
+  font-family: "Muli", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.header {
+  padding-bottom: 20px;
+}
+
+.navbar {
+  padding: 10px 20px;
+  text-align: center;
+  vertical-align: middle;
+  box-shadow: 0px 1px 2px yellow;
+}
+
+.searchbar {
+  width: 100%;
+}
+
+.cart {
+  width: 110px;
+  text-align: right;
+}
+
+.something {
+  padding-top: 200px;
+}
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+  margin-bottom: 0%;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  padding-left: 20px;
+  padding-right: 20px;
+  bottom: 5%;
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel-item {
+  height: 50vh;
+  background-color: #777;
+}
+.carousel-item > img {
+  position: absolute;
+  filter: sepia(20%);
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .searchbar {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-height: 639px) {
+  .carousel-item {
+    height: 0;
+  }
+}
+
+.carousel {
+  padding-top: 60px;
+}

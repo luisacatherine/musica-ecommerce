@@ -78,10 +78,10 @@ class UserResource(Resource):
     @jwt_required
     def delete(self, id):
         qry = User.query.get(id)
-        seller = Client.query.filter(Client.client_id == (User.query.filter(User.id == id).first().client_id)).first()
+        client = Client.query.filter(Client.client_id == (User.query.filter(User.id == id).first().client_id)).first()
         if qry is not None:
             db.session.delete(qry)
-            db.session.delete(seller)
+            db.session.delete(client)
             db.session.commit()
             return 'deleted', 200, {'Content-Type': 'application/json'}
         else:
@@ -105,9 +105,10 @@ class UserResource(Resource):
         client = Client(None, args['email'], args['password'], 'user', args['created_at'], args['updated_at'])
         db.session.add(client)
         db.session.commit()
+        args['cart'] = 0
         args['client_id'] = Client.query.filter(Client.email == args['email']).first().client_id
         args['id_kota'] = Kota.query.filter(Kota.nama_kota == args['kota']).first().id
-        user = User(None, args['name'], args['age'], args['gender'], args['alamat'], args['kota'], args['id_kota'], args['client_id'], args['created_at'], args['updated_at'])
+        user = User(None, args['name'], args['age'], args['gender'], args['alamat'], args['kota'], args['id_kota'], args['client_id'], args['cart'], args['created_at'], args['updated_at'])
         db.session.add(user)
         db.session.commit()
         return marshal(user, User.response_fields), 200, {'Content-Type': 'application/json'}

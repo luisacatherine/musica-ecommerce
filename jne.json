@@ -1,0 +1,132 @@
+{
+    "rajaongkir": {
+        "query": {
+            "origin": 22,
+            "destination": 23,
+            "weight": 1000,
+            "courier": "jne"
+        },
+        "status": {
+            "code": 200,
+            "description": "OK"
+        },
+        "origin_details": {
+            "city_id": "22",
+            "province_id": "9",
+            "province": "Jawa Barat",
+            "type": "Kabupaten",
+            "city_name": "Bandung",
+            "postal_code": "40311"
+        },
+        "destination_details": {
+            "city_id": "23",
+            "province_id": "9",
+            "province": "Jawa Barat",
+            "type": "Kota",
+            "city_name": "Bandung",
+            "postal_code": "40111"
+        },
+        "results": [
+            {
+                "code": "jne",
+                "name": "Jalur Nugraha Ekakurir (JNE)",
+                "costs": [
+                    {
+                        "service": "CTC",
+                        "description": "JNE City Courier",
+                        "cost": [
+                            {
+                                "value": 7000,
+                                "etd": "1-2",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "CTCYES",
+                        "description": "JNE City Courier",
+                        "cost": [
+                            {
+                                "value": 9000,
+                                "etd": "1-1",
+                                "note": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+
+{
+    "rajaongkir": {
+        "query": {
+            "origin": 22,
+            "destination": 152,
+            "weight": 1000,
+            "courier": "jne"
+        },
+        "status": {
+            "code": 200,
+            "description": "OK"
+        },
+        "origin_details": {
+            "city_id": "22",
+            "province_id": "9",
+            "province": "Jawa Barat",
+            "type": "Kabupaten",
+            "city_name": "Bandung",
+            "postal_code": "40311"
+        },
+        "destination_details": {
+            "city_id": "152",
+            "province_id": "6",
+            "province": "DKI Jakarta",
+            "type": "Kota",
+            "city_name": "Jakarta Pusat",
+            "postal_code": "10540"
+        },
+        "results": [
+            {
+                "code": "jne",
+                "name": "Jalur Nugraha Ekakurir (JNE)",
+                "costs": [
+                    {
+                        "service": "OKE",
+                        "description": "Ongkos Kirim Ekonomis",
+                        "cost": [
+                            {
+                                "value": 9000,
+                                "etd": "2-3",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "REG",
+                        "description": "Layanan Reguler",
+                        "cost": [
+                            {
+                                "value": 10000,
+                                "etd": "1-2",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "YES",
+                        "description": "Yakin Esok Sampai",
+                        "cost": [
+                            {
+                                "value": 15000,
+                                "etd": "1-1",
+                                "note": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

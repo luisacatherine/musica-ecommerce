@@ -17,6 +17,7 @@ class User(db.Model):
     id_kota = db.Column(db.Integer, nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('client.client_id'), nullable=False)
     client = db.relationship("Client", backref=backref("user", uselist=False))
+    cart = db.Column(db.Integer, nullable=True, default=0)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     
@@ -29,11 +30,12 @@ class User(db.Model):
         'kota': fields.String,
         'id_kota': fields.Integer,
         'client_id': fields.Integer,
+        'cart': fields.Integer,
         'created_at': fields.DateTime,
         'updated_at': fields.DateTime
     }
 
-    def __init__(self, id, name, age, gender, alamat, kota, id_kota, client_id, created_at, updated_at):
+    def __init__(self, id, name, age, gender, alamat, kota, id_kota, client_id, cart, created_at, updated_at):
         self.id = id
         self.name = name
         self.age = age
@@ -42,6 +44,7 @@ class User(db.Model):
         self.kota = kota
         self.id_kota = id_kota
         self.client_id = client_id
+        self.cart = cart
         self.created_at = created_at
         self.updated_at = updated_at
 
