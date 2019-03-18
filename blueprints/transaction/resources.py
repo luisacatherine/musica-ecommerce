@@ -48,10 +48,11 @@ class TransactionResource(Resource):
             qry.total_item += item['qty']
             qry.total_berat += item['berat']
             qry.total_harga += item['harga']
-        
+
         seller_id = qry_id[0][0]['seller_id']
         seller_kota = Seller.query.filter(Seller.client_id == seller_id).first().id_kota
         qry.total_ongkir = self.hitungOngkir(seller_kota, qry.id_kota, qry.total_berat, 'jne')
+        qry.status_transaksi = 1
         qry.updated_at = datetime.datetime.now()
         db.session.commit()
         if qry is not None:
@@ -66,7 +67,7 @@ class TransactionResource(Resource):
             user_id = jwtClaims['client_id']
             created_at = datetime.datetime.now()
             updated_at = datetime.datetime.now()
-            transaction = Transaction(None, ' ', user_id, ' ', ' ', 0, 0, 0, 0, 0, 0, created_at, updated_at)
+            transaction = Transaction(None, ' ', user_id, 0, ' ', ' ', 0, 0, 0, 0, 0, 0, created_at, updated_at)
             db.session.add(transaction)
             db.session.commit()
             return marshal(transaction, Transaction.response_fields), 200, {'Content-Type': 'application/json'}

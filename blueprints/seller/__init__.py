@@ -19,8 +19,7 @@ class Seller(db.Model):
     id_kota = db.Column(db.Integer, nullable=False)
     bank = db.Column(db.String(10), nullable=False)
     no_rekening = db.Column(db.String(15), nullable=False)
-    client_id = db.Column(db.Integer, db.ForeignKey('client.client_id'), nullable=False)
-    client = db.relationship("Client", backref=backref("seller", uselist=False))
+    client_id = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     

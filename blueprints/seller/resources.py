@@ -101,9 +101,11 @@ class SellerResource(Resource):
         if (status == 'admin'):
             qry = Seller.query.get(id)
             client = Client.query.filter(Client.client_id == (Seller.query.filter(Seller.id == id).first().client_id)).first()
+            product = Items.query.filter(Items.id_penjual == (Seller.query.filter(Seller.id == id).first().client_id)).all()
             if qry is not None:
                 db.session.delete(qry)
                 db.session.delete(client)
+                db.session.delete(product)
                 db.session.commit()
                 return 'deleted', 200, {'Content-Type': 'application/json'}
             else:

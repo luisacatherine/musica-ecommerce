@@ -12,6 +12,7 @@ class Transaction(db.Model):
                           autoincrement=True, unique=True)
     payment_method = db.Column(db.String(10))
     user_id = db.Column(db.Integer)
+    seller_id = db.Column(db.Integer)
     alamat = db.Column(db.String(100), nullable=False)
     kota = db.Column(db.String(30), nullable=False)
     id_kota = db.Column(db.Integer, nullable=False)
@@ -27,6 +28,7 @@ class Transaction(db.Model):
         'id': fields.Integer,
         'payment_method': fields.String,
         'user_id': fields.Integer,
+        'seller_id': fields.Integer,
         'alamat': fields.String,
         'kota': fields.String,
         'id_kota': fields.Integer,
@@ -39,10 +41,11 @@ class Transaction(db.Model):
         'updated_at': fields.DateTime
     }
 
-    def __init__(self, id, payment_method, user_id, alamat, kota, id_kota, total_item, total_berat, total_ongkir, total_harga, status_transaksi, created_at, updated_at):
+    def __init__(self, id, payment_method, user_id, seller_id, alamat, kota, id_kota, total_item, total_berat, total_ongkir, total_harga, status_transaksi, created_at, updated_at):
         self.id = id
         self.payment_method = payment_method
         self.user_id = user_id
+        self.seller_id = seller_id
         self.alamat = alamat
         self.kota = kota
         self.id_kota = id_kota

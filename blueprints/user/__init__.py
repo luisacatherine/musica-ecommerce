@@ -17,8 +17,7 @@ class User(db.Model):
     provinsi = db.Column(db.String(30), nullable=False)
     kota = db.Column(db.String(30), nullable=False)
     id_kota = db.Column(db.Integer, nullable=False)
-    client_id = db.Column(db.Integer, db.ForeignKey('client.client_id'), nullable=False)
-    client = db.relationship("Client", backref=backref("user", uselist=False))
+    client_id = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     

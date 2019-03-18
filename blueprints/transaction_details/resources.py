@@ -28,7 +28,14 @@ class TransactionDetailResource(Resource):
             return {'status': 'NOT_FOUND', 'message': 'Items not found'}, 404, {'Content-Type': 'application/json'}
         buyer_id = jwtClaims['client_id']
         transaction_id = Transaction.query.filter(Transaction.status_transaksi == 0).filter(Transaction.user_id == buyer_id).first().id
+        qry = Transaction.query.get(transaction_id)
         seller_id = Items.query.filter(Items.id == args['product_id']).first().id_penjual
+        if qry.seller_id == 0:
+            qry.seller_id = seller_id
+            db.session.commit()
+        else:
+            if qry.seller_id != seller_id:
+                return {'message': 'Please finished your transaction with other seller first!'}, 412, {'Content-Type': 'application/json'}
         berat = args['qty'] * Items.query.filter(Items.id == args['product_id']).first().berat
         harga = args['qty'] * Items.query.filter(Items.id == args['product_id']).first().harga_promo
         args['created_at'] = datetime.datetime.now()

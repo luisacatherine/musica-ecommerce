@@ -2,6 +2,7 @@ from blueprints import db
 from flask_restful import fields
 import datetime
 from blueprints.seller import *
+from blueprints.category import *
 
 class Items(db.Model):
     __tablename__ = "items"
@@ -58,21 +59,3 @@ class Items(db.Model):
 
     def __repr__(self):
         return '<Items %r>' % self.id # harus string
-
-class Category(db.Model):
-    __tablename__ = "category"
-    id = db.Column(db.Integer, primary_key=True,
-                          autoincrement=True, unique=True)
-    nama_kategori = db.Column(db.String(30))
-
-    response_fields = {
-        'id': fields.Integer,
-        'nama_kategori': fields.String
-    }
-
-    def __init__(self, id, nama_kategori):
-        self.id = id
-        self.nama_kategori = nama_kategori
-
-    def __repr__(self):
-        return self.nama_kategori  # harus string
