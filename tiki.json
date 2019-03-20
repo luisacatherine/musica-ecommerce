@@ -1,0 +1,93 @@
+{
+    "rajaongkir": {
+        "query": {
+            "origin": 22,
+            "destination": 23,
+            "weight": 1000,
+            "courier": "tiki"
+        },
+        "status": {
+            "code": 200,
+            "description": "OK"
+        },
+        "origin_details": {
+            "city_id": "22",
+            "province_id": "9",
+            "province": "Jawa Barat",
+            "type": "Kabupaten",
+            "city_name": "Bandung",
+            "postal_code": "40311"
+        },
+        "destination_details": {
+            "city_id": "23",
+            "province_id": "9",
+            "province": "Jawa Barat",
+            "type": "Kota",
+            "city_name": "Bandung",
+            "postal_code": "40111"
+        },
+        "results": [
+            {
+                "code": "tiki",
+                "name": "Citra Van Titipan Kilat (TIKI)",
+                "costs": [
+                    {
+                        "service": "SDS",
+                        "description": "Same Day Service",
+                        "cost": [
+                            {
+                                "value": 50000,
+                                "etd": "0",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "HDS",
+                        "description": "Holiday Service",
+                        "cost": [
+                            {
+                                "value": 25000,
+                                "etd": "1",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "ONS",
+                        "description": "Over Night Service",
+                        "cost": [
+                            {
+                                "value": 9000,
+                                "etd": "1",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "REG",
+                        "description": "Regular Service",
+                        "cost": [
+                            {
+                                "value": 7000,
+                                "etd": "1",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "ECO",
+                        "description": "Economy Service",
+                        "cost": [
+                            {
+                                "value": 6000,
+                                "etd": "4",
+                                "note": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

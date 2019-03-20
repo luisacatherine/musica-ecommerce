@@ -1,0 +1,60 @@
+{
+    "rajaongkir": {
+        "query": {
+            "origin": 22,
+            "destination": 152,
+            "weight": 1000,
+            "courier": "pos"
+        },
+        "status": {
+            "code": 200,
+            "description": "OK"
+        },
+        "origin_details": {
+            "city_id": "22",
+            "province_id": "9",
+            "province": "Jawa Barat",
+            "type": "Kabupaten",
+            "city_name": "Bandung",
+            "postal_code": "40311"
+        },
+        "destination_details": {
+            "city_id": "152",
+            "province_id": "6",
+            "province": "DKI Jakarta",
+            "type": "Kota",
+            "city_name": "Jakarta Pusat",
+            "postal_code": "10540"
+        },
+        "results": [
+            {
+                "code": "pos",
+                "name": "POS Indonesia (POS)",
+                "costs": [
+                    {
+                        "service": "Paket Kilat Khusus",
+                        "description": "Paket Kilat Khusus",
+                        "cost": [
+                            {
+                                "value": 12500,
+                                "etd": "1-2 HARI",
+                                "note": ""
+                            }
+                        ]
+                    },
+                    {
+                        "service": "Express Next Day Barang",
+                        "description": "Express Next Day Barang",
+                        "cost": [
+                            {
+                                "value": 16500,
+                                "etd": "1 HARI",
+                                "note": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

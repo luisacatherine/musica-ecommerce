@@ -14,7 +14,7 @@ class ClientResource(Resource):
     def __init__(self):
         pass
 
-    @jwt_required
+    # @jwt_required
     def get(self, client_id=None):
         if (client_id == None):
             parser = reqparse.RequestParser()
