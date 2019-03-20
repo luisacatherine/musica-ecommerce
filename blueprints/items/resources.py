@@ -20,10 +20,10 @@ class ItemsResource(Resource):
         if (id == None):
             data_kategori = str(Category.query.all())
             parser = reqparse.RequestParser()
-            parser.add_argument('p', type=int, location='args', default=1)
-            parser.add_argument('rp', type=int, location='args', default=5)
+            parser.add_argument('p', type=int, location='args')
+            parser.add_argument('rp', type=int, location='args')
             parser.add_argument('q', type=int, location='args')
-            parser.add_argument('kategori', type=str, location='args', choices=data_kategori)
+            parser.add_argument('kategori', type=str, location='args')
             parser.add_argument('promo', location='args', type=bool)
             parser.add_argument('new_arrival', location='args', type=bool)
             parser.add_argument('status', location='args', choices=['ready', 'pre-order'])
@@ -31,7 +31,7 @@ class ItemsResource(Resource):
             parser.add_argument('harga_min', location='args', type=int)
             parser.add_argument('harga_max', location='args', type=int)
             args = parser.parse_args()
-            offset = (args['p'] * args['rp']) - args['rp']
+            
             qry = Items.query
 
             qry = qry.filter_by(show=True)
@@ -40,6 +40,7 @@ class ItemsResource(Resource):
                 qry = qry.limit(args['q'])
 
             if args['kategori'] is not None:
+                # temp = str(Category.query.filter(Category.nama_kategori.ilike('%{}%'.format(args['kategori']))).all())
                 temp = Category.query.filter(Category.nama_kategori == args['kategori']).first().id
                 qry = qry.filter_by(id_kategori=temp)
 
@@ -65,8 +66,14 @@ class ItemsResource(Resource):
                 qry = qry.filter(Items.harga_promo < args['harga_max'])
 
             rows = []
-            for row in qry.limit(args['rp']).offset(offset).all():
-                rows.append(marshal(row, Items.response_fields))
+
+            if args['p'] is not None and args['rp'] is not None:
+                offset = (args['p'] * args['rp']) - args['rp']
+                for row in qry.limit(args['rp']).offset(offset).all():
+                    rows.append(marshal(row, Items.response_fields))
+            else:
+                for row in qry.all():
+                    rows.append(marshal(row, Items.response_fields))                
             
             return {'status': 'oke', 'items': rows}, 200, {'Content-Type': 'application/json'}
         else:

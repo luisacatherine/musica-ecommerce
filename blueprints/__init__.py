@@ -10,8 +10,8 @@ from flask_jwt_extended import JWTManager
 from datetime import timedelta
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://alterra:Alta2019#@172.31.21.6:3306/dbmusica'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@0.0.0.0:3306/musica_project'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://alterra:Alta2019#@172.31.21.6:3306/dbmusica'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@0.0.0.0:3306/musica_project'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'musicaAdmin'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
