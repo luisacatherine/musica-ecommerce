@@ -6,6 +6,7 @@ from blueprints import db
 from . import *
 from flask_jwt_extended import get_jwt_claims, jwt_required
 import datetime
+from passlib.hash import sha256_crypt
 
 bp_user = Blueprint('user', __name__)
 api = Api(bp_user)
@@ -38,11 +39,11 @@ class UserResource(Resource):
                 rows = []
                 for row in qry.limit(args['rp']).offset(offset).all():
                     rows.append(marshal(row, User.response_fields))
-                return rows, 200, {'Content-Type': 'application/json'}
+                return {'status': 'oke', 'user': rows}, 200, {'Content-Type': 'application/json'}
             else:
                 qry = User.query.get(id) # select * from Client where id = id
                 if qry is not None:
-                    return marshal(qry, User.response_fields), 200, {'Content-Type': 'application/json'}
+                    return {'status': 'oke', 'user': marshal(qry, User.response_fields)}, 200, {'Content-Type': 'application/json'}
                 return {'status': 'NOT_FOUND', 'message': 'User not found'}, 404, {'Content-Type': 'application/json'}
         else:
             qry = User.query.filter(User.client_id == jwtClaims['client_id']).first()
@@ -84,10 +85,12 @@ class UserResource(Resource):
             if args['kota'] is not None:
                 qry.kota = args['kota']
                 qry.id_kota = Kota.query.filter(Kota.nama_kota == args['kota']).first().id
+            if args['photo_url'] is not None:
+                qry.photo_url = args['photo_url']
             qry.client_id = jwtClaims['client_id']
             qry.updated_at = datetime.datetime.now()
             db.session.commit()
-            return marshal(qry, User.response_fields), 200, {'Content-Type': 'application/json'}
+            return {'status': 'oke', 'user': marshal(qry, User.response_fields)}, 200, {'Content-Type': 'application/json'}
         else:
             return {'status': 'NOT_FOUND', 'message': 'User not found'}, 404, {'Content-Type': 'application/json'}
 
@@ -101,7 +104,7 @@ class UserResource(Resource):
                 db.session.delete(qry)
                 db.session.delete(client)
                 db.session.commit()
-                return 'deleted', 200, {'Content-Type': 'application/json'}
+                return {'status': 'deleted'}, 200, {'Content-Type': 'application/json'}
             else:
                 return {'status': 'NOT_FOUND', 'message': 'User not found'}, 404, {'Content-Type': 'application/json'}
         else:
@@ -120,19 +123,20 @@ class UserResource(Resource):
         parser.add_argument('provinsi', location='json', choices=data_provinsi, required=True)
         parser.add_argument('kota', location='json', choices=data_kota, required=True)
         parser.add_argument('password', location='json', required=True)
+        parser.add_argument('photo_url', location='json')
         args = parser.parse_args()
         if Client.query.filter(Client.email == args['email']).first() is not None:
             return {'message': 'This email is already registered, please use another email'}, 500, {'Content-Type': 'application/json'}
         args['created_at'] = datetime.datetime.now()
         args['updated_at'] = datetime.datetime.now()
-        client = Client(None, args['email'], args['password'], 'user', args['created_at'], args['updated_at'])
+        client = Client(None, args['email'], sha256_crypt.encrypt(args['password']), 'user', args['created_at'], args['updated_at'])
         db.session.add(client)
         db.session.commit()
         args['client_id'] = Client.query.filter(Client.email == args['email']).first().client_id
         args['id_kota'] = Kota.query.filter(Kota.nama_kota == args['kota']).first().id
-        user = User(None, args['name'], args['date_of_birth'], args['gender'], args['phone_number'], args['alamat'], args['provinsi'], args['kota'], args['id_kota'], args['client_id'], args['created_at'], args['updated_at'])
+        user = User(None, args['name'], args['date_of_birth'], args['gender'], args['phone_number'], args['alamat'], args['provinsi'], args['kota'], args['id_kota'], args['client_id'], args['photo_url'], args['created_at'], args['updated_at'])
         db.session.add(user)
         db.session.commit()
-        return marshal(user, User.response_fields), 200, {'Content-Type': 'application/json'}
+        return {'status': 'oke', 'user': marshal(user, User.response_fields)}, 200, {'Content-Type': 'application/json'}
 
 api.add_resource(UserResource, '/<int:id>', '')

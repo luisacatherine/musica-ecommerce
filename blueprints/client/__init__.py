@@ -11,7 +11,7 @@ class Client(db.Model):
     client_id = db.Column(db.Integer, primary_key=True,
                           autoincrement=True, unique=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     status = db.Column(db.String(10), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)

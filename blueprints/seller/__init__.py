@@ -20,6 +20,7 @@ class Seller(db.Model):
     bank = db.Column(db.String(10), nullable=False)
     no_rekening = db.Column(db.String(15), nullable=False)
     client_id = db.Column(db.Integer, nullable=False)
+    photo_url = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.now(), index=True)
     
@@ -36,11 +37,11 @@ class Seller(db.Model):
         'bank': fields.String,
         'no_rekening': fields.String,
         'client_id': fields.Integer,
+        'photo_url': fields.String,
         'created_at': fields.DateTime,
         'updated_at': fields.DateTime
     }
-
-    def __init__(self, id, name, date_of_birth, gender, phone_number, alamat, provinsi, kota, id_kota, bank, no_rekening, client_id, created_at, updated_at):
+    def __init__(self, id, name, date_of_birth, gender, phone_number, alamat, provinsi, kota, id_kota, bank, no_rekening, client_id, photo_url, created_at, updated_at):
         self.id = id
         self.name = name
         self.date_of_birth = date_of_birth
@@ -53,6 +54,7 @@ class Seller(db.Model):
         self.bank = bank
         self.no_rekening = no_rekening
         self.client_id = client_id
+        self.photo_url = photo_url
         self.created_at = created_at
         self.updated_at = updated_at
 

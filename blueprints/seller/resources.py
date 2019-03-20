@@ -6,6 +6,7 @@ from blueprints import db
 from . import *
 from flask_jwt_extended import get_jwt_claims, jwt_required
 import datetime
+from passlib.hash import sha256_crypt
 
 bp_seller = Blueprint('seller', __name__)
 api = Api(bp_seller)
@@ -38,15 +39,15 @@ class SellerResource(Resource):
                 rows = []
                 for row in qry.limit(args['rp']).offset(offset).all():
                     rows.append(marshal(row, Seller.response_fields))
-                return rows, 200, {'Content-Type': 'application/json'}
+                return {'status': 'oke', 'seller': rows}, 200, {'Content-Type': 'application/json'}
             else:
                 qry = Seller.query.get(id) # select * from Client where id = id
                 if qry is not None:
-                    return marshal(qry, Seller.response_fields), 200, {'Content-Type': 'application/json'}
+                    return {'status': 'oke', 'user': marshal(qry, Seller.response_fields)}, 200, {'Content-Type': 'application/json'}
                 return {'status': 'NOT_FOUND', 'message': 'Seller not found'}, 404, {'Content-Type': 'application/json'}
         else:
             qry = Seller.query.filter(Seller.client_id == jwtClaims['client_id']).first()
-            return marshal(qry, Seller.response_fields), 200, {'Content-Type': 'application/json'}
+            return {'status': 'oke', 'seller': marshal(qry, Seller.response_fields)}, 200, {'Content-Type': 'application/json'}
 
     @jwt_required
     def put(self, id):
@@ -91,7 +92,7 @@ class SellerResource(Resource):
                 qry.no_rekening = args['no_rekening']
             qry.updated_at = datetime.datetime.now()
             db.session.commit()
-            return marshal(qry, Seller.response_fields), 200, {'Content-Type': 'application/json'}
+            return {'status': 'oke', 'seller': marshal(qry, Seller.response_fields)}, 200, {'Content-Type': 'application/json'}
         else:
             return {'status': 'NOT_FOUND', 'message': 'Seller not found'}, 404, {'Content-Type': 'application/json'}
 
@@ -128,17 +129,18 @@ class SellerResource(Resource):
         parser.add_argument('bank', location='json', choices=['BCA', 'Mandiri', 'BNI', 'BRI', 'BTPN'], required=True)
         parser.add_argument('no_rekening', location='json', required=True)
         parser.add_argument('password', location='json', required=True)
+        parser.add_argument('photo_url', location='json')
         args = parser.parse_args()
         if Client.query.filter(Client.email == args['email']).first() is not None:
             return {'message': 'This email is already registered, please use another email'}, 500, {'Content-Type': 'application/json'}
         args['created_at'] = datetime.datetime.now()
         args['updated_at'] = datetime.datetime.now()
-        client = Client(None, args['email'], args['password'], 'seller', args['created_at'], args['updated_at'])
+        client = Client(None, args['email'], sha256_crypt.encrypt(args['password']), 'seller', args['created_at'], args['updated_at'])
         db.session.add(client)
         db.session.commit()
         args['client_id'] = Client.query.filter(Client.email == args['email']).first().client_id
         args['id_kota'] = Kota.query.filter(Kota.nama_kota == args['kota']).first().id
-        seller = Seller(None, args['name'], args['date_of_birth'], args['gender'], args['phone_number'], args['alamat'], args['provinsi'], args['kota'], args['id_kota'], args['bank'], args['no_rekening'], args['client_id'], args['created_at'], args['updated_at'])
+        seller = Seller(None, args['name'], args['date_of_birth'], args['gender'], args['phone_number'], args['alamat'], args['provinsi'], args['kota'], args['id_kota'], args['bank'], args['no_rekening'], args['client_id'], args['photo_url'], args['created_at'], args['updated_at'])
         db.session.add(seller)
         db.session.commit()
         return marshal(seller, Seller.response_fields), 200, {'Content-Type': 'application/json'}

@@ -22,6 +22,7 @@ class ItemsResource(Resource):
             parser = reqparse.RequestParser()
             parser.add_argument('p', type=int, location='args', default=1)
             parser.add_argument('rp', type=int, location='args', default=5)
+            parser.add_argument('q', type=int, location='args')
             parser.add_argument('kategori', type=str, location='args', choices=data_kategori)
             parser.add_argument('promo', location='args', type=bool)
             parser.add_argument('new_arrival', location='args', type=bool)
@@ -34,6 +35,9 @@ class ItemsResource(Resource):
             qry = Items.query
 
             qry = qry.filter_by(show=True)
+
+            if args['q'] is not None:
+                qry = qry.limit(args['q'])
 
             if args['kategori'] is not None:
                 temp = Category.query.filter(Category.nama_kategori == args['kategori']).first().id
@@ -63,11 +67,12 @@ class ItemsResource(Resource):
             rows = []
             for row in qry.limit(args['rp']).offset(offset).all():
                 rows.append(marshal(row, Items.response_fields))
-            return rows, 200, {'Content-Type': 'application/json'}
+            
+            return {'status': 'oke', 'items': rows}, 200, {'Content-Type': 'application/json'}
         else:
             qry = Items.query.get(id) # select * from Client where id = id
             if qry is not None:
-                return marshal(qry, Items.response_fields), 200, {'Content-Type': 'application/json'}
+                return {'status': 'oke', 'items': marshal(qry, Items.response_fields)}, 200, {'Content-Type': 'application/json'}
             return {'status': 'NOT_FOUND', 'message': 'Items not found'}, 404, {'Content-Type': 'application/json'}
     
     @jwt_required
@@ -117,7 +122,7 @@ class ItemsResource(Resource):
                     qry.show = args['show']
                 qry.updated_at = datetime.datetime.now()
                 db.session.commit()
-                return marshal(qry, Items.response_fields), 200, {'Content-Type': 'application/json'}
+                return {'status': 'oke', 'items': marshal(qry, Items.response_fields)}, 200, {'Content-Type': 'application/json'}
             else:
                 return {'status': 'NOT_FOUND', 'message': 'Items not found'}, 404, {'Content-Type': 'application/json'}
         else:
@@ -158,19 +163,22 @@ class ItemsResource(Resource):
             parser.add_argument('promo', location='json', type=bool)
             parser.add_argument('harga_promo', type=int, location='json')
             parser.add_argument('show', location='json', type=bool)
+            parser.add_argument('photo_url', location='json')
             args = parser.parse_args()
             if args['promo'] is None:
                 args['harga_promo'] = args['harga']
             if args['status'] == 'pre-order':
                 args['stok'] = -1
             args['id_penjual'] = jwtClaims['client_id']
+            seller_kota = Seller.query.filter(Seller.client_id == args['id_penjual']).first().kota
+            seller_name = Seller.query.filter(Seller.client_id == args['id_penjual']).first().name
             args['id_kategori'] = Category.query.filter(Category.nama_kategori == args['kategori']).first().id
             args['created_at'] = datetime.datetime.now()
             args['updated_at'] = datetime.datetime.now()
-            items = Items(None, args['id_penjual'], args['id_kategori'], args['nama'], args['merk'], args['harga'], args['status'], args['stok'], args['deskripsi_produk'], args['berat'], args['promo'], args['harga_promo'], args['show'], args['created_at'], args['updated_at'])
+            items = Items(None, args['id_penjual'], args['id_kategori'], args['nama'], args['merk'], args['harga'], args['status'], args['stok'], args['deskripsi_produk'], args['berat'], args['promo'], args['harga_promo'], args['show'], seller_name, seller_kota, args['photo_url'], args['created_at'], args['updated_at'])
             db.session.add(items)
             db.session.commit()
-            return marshal(items, Items.response_fields), 200, {'Content-Type': 'application/json'}
+            return {'status': 'oke', 'items': marshal(items, Items.response_fields)}, 200, {'Content-Type': 'application/json'}
         else:
             return {'status': 'UNAUTHORIZED', 'message': 'Not Authorized'}, 401, {'Content-Type': 'application/json'}
 
