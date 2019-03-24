@@ -28,6 +28,9 @@ class ItemsResource(Resource):
             parser.add_argument('new_arrival', location='args', type=bool)
             parser.add_argument('status', location='args', choices=['ready', 'pre-order'])
             parser.add_argument('lokasi', location='args')
+            parser.add_argument('nama', location='args')
+            parser.add_argument('seller_id', location='args')
+            parser.add_argument('excluded_id', location='args', type=int)
             parser.add_argument('harga_min', location='args', type=int)
             parser.add_argument('harga_max', location='args', type=int)
             args = parser.parse_args()
@@ -35,9 +38,6 @@ class ItemsResource(Resource):
             qry = Items.query
 
             qry = qry.filter_by(show=True)
-
-            if args['q'] is not None:
-                qry = qry.limit(args['q'])
 
             if args['kategori'] is not None:
                 # temp = str(Category.query.filter(Category.nama_kategori.ilike('%{}%'.format(args['kategori']))).all())
@@ -56,14 +56,25 @@ class ItemsResource(Resource):
                 qry = qry.filter_by(status=args['status'])
 
             if args['lokasi'] is not None:
-                temp = str(Seller.query.filter(Seller.kota.ilike('%{}%'.format(args['lokasi']))).all())
-                qry = qry.filter(Items.id_penjual.in_(temp))
+                qry = qry.filter(Items.seller_city.ilike('%{}%'.format(args['lokasi'])))
+            
+            if args['nama'] is not None:
+                qry = qry.filter(Items.nama.ilike('%{}%'.format(args['nama'])))
+
+            if args['excluded_id'] is not None:
+                qry = qry.filter(Items.id != args['excluded_id'])
             
             if args['harga_min'] is not None:
                 qry = qry.filter(Items.harga_promo > args['harga_min'])
 
             if args['harga_max'] is not None:
                 qry = qry.filter(Items.harga_promo < args['harga_max'])
+
+            if args['seller_id'] is not None:
+                qry = qry.filter_by(id_penjual=args['seller_id'])
+
+            if args['q'] is not None:
+                qry = qry.limit(args['q'])
 
             rows = []
 
@@ -188,5 +199,8 @@ class ItemsResource(Resource):
             return {'status': 'oke', 'items': marshal(items, Items.response_fields)}, 200, {'Content-Type': 'application/json'}
         else:
             return {'status': 'UNAUTHORIZED', 'message': 'Not Authorized'}, 401, {'Content-Type': 'application/json'}
+    
+    def options(self, id=None):
+        return {'status': 'oke'}, 200
 
 api.add_resource(ItemsResource, '/<int:id>', '')

@@ -41,6 +41,15 @@ class Seller(db.Model):
         'created_at': fields.DateTime,
         'updated_at': fields.DateTime
     }
+
+    public_fields = {
+        'id': fields.Integer,
+        'name': fields.String,
+        'kota': fields.String,
+        'client_id': fields.Integer,
+        'photo_url': fields.String
+    }
+
     def __init__(self, id, name, date_of_birth, gender, phone_number, alamat, provinsi, kota, id_kota, bank, no_rekening, client_id, photo_url, created_at, updated_at):
         self.id = id
         self.name = name

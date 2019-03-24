@@ -47,7 +47,7 @@ class UserResource(Resource):
                 return {'status': 'NOT_FOUND', 'message': 'User not found'}, 404, {'Content-Type': 'application/json'}
         else:
             qry = User.query.filter(User.client_id == jwtClaims['client_id']).first()
-            return marshal(qry, User.response_fields), 200, {'Content-Type': 'application/json'}
+            return {'status': 'oke', 'user': marshal(qry, User.response_fields)}, 200, {'Content-Type': 'application/json'}
 
     
     @jwt_required
@@ -67,6 +67,7 @@ class UserResource(Resource):
         parser.add_argument('alamat', location='json')
         parser.add_argument('provinsi', location='json', choices=data_provinsi)
         parser.add_argument('kota', location='json', choices=data_kota)
+        parser.add_argument('photo_url', location='json')
         args = parser.parse_args()
         qry = User.query.get(id)
         if qry is not None:
@@ -138,5 +139,8 @@ class UserResource(Resource):
         db.session.add(user)
         db.session.commit()
         return {'status': 'oke', 'user': marshal(user, User.response_fields)}, 200, {'Content-Type': 'application/json'}
+
+    def options(self, id=None):
+        return {},200
 
 api.add_resource(UserResource, '/<int:id>', '')

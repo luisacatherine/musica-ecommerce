@@ -43,7 +43,7 @@ class SellerResource(Resource):
             else:
                 qry = Seller.query.get(id) # select * from Client where id = id
                 if qry is not None:
-                    return {'status': 'oke', 'user': marshal(qry, Seller.response_fields)}, 200, {'Content-Type': 'application/json'}
+                    return {'status': 'oke', 'seller': marshal(qry, Seller.response_fields)}, 200, {'Content-Type': 'application/json'}
                 return {'status': 'NOT_FOUND', 'message': 'Seller not found'}, 404, {'Content-Type': 'application/json'}
         else:
             qry = Seller.query.filter(Seller.client_id == jwtClaims['client_id']).first()
@@ -108,7 +108,7 @@ class SellerResource(Resource):
                 db.session.delete(client)
                 db.session.delete(product)
                 db.session.commit()
-                return 'deleted', 200, {'Content-Type': 'application/json'}
+                return {'status': 'deleted'}, 200, {'Content-Type': 'application/json'}
             else:
                 return {'status': 'NOT_FOUND', 'message': 'Seller not found'}, 404, {'Content-Type': 'application/json'}
         else:
@@ -143,6 +143,9 @@ class SellerResource(Resource):
         seller = Seller(None, args['name'], args['date_of_birth'], args['gender'], args['phone_number'], args['alamat'], args['provinsi'], args['kota'], args['id_kota'], args['bank'], args['no_rekening'], args['client_id'], args['photo_url'], args['created_at'], args['updated_at'])
         db.session.add(seller)
         db.session.commit()
-        return marshal(seller, Seller.response_fields), 200, {'Content-Type': 'application/json'}
+        return {'status': 'oke', 'seller': marshal(seller, Seller.response_fields)}, 200, {'Content-Type': 'application/json'}
+    
+    def options(self, id=None):
+        return {},200
 
 api.add_resource(SellerResource, '/<int:id>', '')

@@ -19,13 +19,20 @@ class CreateTokenResources(Resource):
         # qry = Client.query.filter_by(email=args['email']).filter_by(password=args['password']).first()
         qry = Client.query.filter_by(email=args['email']).first()
         if qry is None:
-            return {'status': 'UNAUTHORIZED', 'message': 'Anda belum terdaftar!'}, 401
-        temp = Client.query.filter(Client.email == args['email']).first().password
+            return {'status': 'UNAUTHORIZED', 'message': 'Anda belum terdaftar!'}, 200
+        temp = Client.query.filter(Client.email == args['email']).first()
+        client_password = temp.password
+        client_email = temp.email
+        client_status = temp.status
 
-        if (sha256_crypt.verify(args['password'], temp) == True):
+        if (sha256_crypt.verify(args['password'], client_password) == True):
             token = create_access_token(marshal(qry, Client.response_fields))
         else:
-            return {'status': 'UNAUTHORIZED', 'message': 'Password Anda salah!'}, 401
-        return {'status': 'oke', 'token': token}, 200
+            return {'status': 'UNAUTHORIZED', 'message': 'Password Anda salah!'}, 200
+        return {'status': 'oke', 'token': token, 'email': client_email, 'user_status': client_status}, 200
+
+    def options(self):
+        return {},200
+    
 
 api.add_resource(CreateTokenResources, '')
