@@ -75,8 +75,28 @@ class TransactionDetailResource(Resource):
         qry.stok -= args['qty']
         db.session.commit()
         return {'status': 'oke', 'transaksi': marshal(transaction, TransactionDetail.response_fields)}, 200, {'Content-Type': 'application/json'}
+
+    @jwt_required
+    def delete(self, id):
+        jwtClaims = get_jwt_claims()
+        qry = TransactionDetail.query.get(id)
+        if qry is None:
+            return {'status': 'gagal', 'message': 'Transaksi ini tidak ada!'}, 200, {'Content-Type': 'application/json'}
+        if jwtClaims['status'] == 'user' or jwtClaims['status'] == 'seller':
+            if jwtClaims['client_id'] != qry.buyer_id:
+                return {'status': 'gagal', 'message': 'Transaksi ini bukan milik Anda!'}, 200, {'Content-Type': 'application/json'}
+        item = Items.query.filter(Items.id == qry.product_id).first()
+        transaction = Transaction.query.filter(Transaction.id == qry.transaction_id).first()
+        if(transaction.total_item == qry.qty):
+            db.session.delete(transaction)
+        else:
+            transaction.total_item -= qry.qty
+        item.stok += qry.qty
+        db.session.delete(qry)
+        db.session.commit()
+        return {'status': 'deleted'}, 200, {'Content-Type': 'application/json'}
     
-    def options(self):
+    def options(self, id=None):
         return {}, 200
 
 api.add_resource(TransactionDetailResource, '/<int:id>', '')

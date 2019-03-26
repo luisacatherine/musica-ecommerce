@@ -23,7 +23,7 @@ class SellerResource(Resource):
             if (id == None):
                 parser = reqparse.RequestParser()
                 parser.add_argument('p', type=int, location='args', default=1)
-                parser.add_argument('rp', type=int, location='args', default=5)
+                parser.add_argument('rp', type=int, location='args', default=200)
                 parser.add_argument('kota', type=str, location='args')
                 parser.add_argument('gender', type=str, location='args')
                 args = parser.parse_args()

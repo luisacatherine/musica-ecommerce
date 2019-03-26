@@ -63,11 +63,13 @@ class TransactionResource(Resource):
             qry = Transaction.query.get(id)
             return {'status': 'oke', 'transaction': marshal(qry, Transaction.response_fields)}, 200, {'Content-Type': 'application/json'}
         elif (jwtClaims['status'] == 'seller') or (jwtClaims['status'] == 'user'):
+            qry = Transaction.query
             if (qry.filter(Transaction.id == id).first().seller_id == jwtClaims['client_id']) or (qry.filter(Transaction.id == id).first().user_id == jwtClaims['client_id']):
                 qry = Transaction.query.get(id)
                 return {'status': 'oke', 'transaction': marshal(qry, Transaction.response_fields)}, 200, {'Content-Type': 'application/json'}
             return {'status': 'gagal', 'message': 'Anda tidak diperbolehkan melihat transaksi ini!'}, 401, {'Content-Type': 'application/json'}
 
+# For Checkout
     @jwt_required
     def put(self, id):
         data_kota = str(Kota.query.all())
@@ -105,29 +107,38 @@ class TransactionResource(Resource):
             return marshal(qry, Transaction.response_fields), 200, {'Content-Type': 'application/json'}
         else:
             return {'status': 'NOT_FOUND', 'message': 'Transaction not found'}, 404, {'Content-Type': 'application/json'}
-    
+
+# Compute total and change transaction status 
     @jwt_required
     def patch(self, id):
         jwtClaims = get_jwt_claims()
         user_id = jwtClaims['client_id']
+        parser = reqparse.RequestParser()
+        parser.add_argument('status_transaksi', location='json')
+        args = parser.parse_args()
         qry = Transaction.query.get(id)
-        if qry.user_id != user_id:
-            return {'status': 'UNAUTHORIZED', 'message': 'Not Authorized'}, 401, {'Content-Type': 'application/json'}
-        qry_id = TransactionDetail.query.filter(TransactionDetail.transaction_id == id).all()
-        qry_id = marshal(qry_id, TransactionDetail.response_fields), 200, {'Content-Type': 'application/json'}
-        qry.total_item = 0
-        qry.total_berat = 0
-        qry.total_harga = 0
-        for item in qry_id[0]:
-            qry.total_item += item['qty']
-            qry.total_berat += item['berat']
-            qry.total_harga += item['harga']
-
-        if qry.total_berat >= 30000:
-            return {'status': 'gagal', 'message': 'Barang terlalu berat, pengiriman maksimal 30kg'}, 200, {'Content-Type': 'application/json'}
-
-        db.session.commit()
         if qry is not None:
+            if (args['status_transaksi'] is None):
+                if qry.user_id != user_id:
+                    return {'status': 'UNAUTHORIZED', 'message': 'Not Authorized'}, 401, {'Content-Type': 'application/json'}
+                qry_id = TransactionDetail.query.filter(TransactionDetail.transaction_id == id).all()
+                qry_id = marshal(qry_id, TransactionDetail.response_fields), 200, {'Content-Type': 'application/json'}
+                qry.total_item = 0
+                qry.total_berat = 0
+                qry.total_harga = 0
+                for item in qry_id[0]:
+                    qry.total_item += item['qty']
+                    qry.total_berat += item['berat']
+                    qry.total_harga += item['harga']
+
+                if qry.total_berat >= 30000:
+                    return {'status': 'gagal', 'message': 'Barang terlalu berat, pengiriman maksimal 30kg'}, 200, {'Content-Type': 'application/json'}
+            elif (args['status_transaksi'] is not None):
+                if (jwtClaims['status'] == 'admin' or jwtClaims['status']=='seller'):
+                    qry.status_transaksi = args['status_transaksi']
+                else:
+                    return {'status': 'UNAUTHORIZED', 'message': 'Not Authorized'}, 401, {'Content-Type': 'application/json'}
+            db.session.commit()
             return {'status': 'oke', 'transaction': marshal(qry, Transaction.response_fields)}, 200, {'Content-Type': 'application/json'}
         else:
             return {'status': 'NOT_FOUND', 'message': 'Transaction not found'}, 404, {'Content-Type': 'application/json'}

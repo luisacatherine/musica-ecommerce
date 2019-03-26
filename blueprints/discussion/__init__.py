@@ -3,6 +3,7 @@ from flask_restful import fields
 import datetime
 from blueprints.seller import *
 from blueprints.items import *
+from blueprints.user import *
 
 class Discussion(db.Model):
     __tablename__ = "Discussion"

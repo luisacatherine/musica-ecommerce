@@ -21,10 +21,12 @@ class DiscussionResource(Resource):
         parser.add_argument('p', location='args', type=int)
         parser.add_argument('rp', location='args', type=int)
         args = parser.parse_args()
-        qry = Items.query.get(args['id_produk'])
-        if qry is None:
-            return {'status': 'NOT_FOUND', 'message': 'Items not found'}, 404, {'Content-Type': 'application/json'}
+        temp = Items.query.get(args['id_produk'])
+        if temp is None:
+            return {'status': 'gagal', 'message': "Item tidak ditemukan"}, 200, {'Content-Type': 'application/json'}
+
         qry = Discussion.query
+        qry = qry.filter_by(id_produk=args['id_produk'])
         rows = []
         if (args['p'] is not None and args['rp'] is not None):
             offset = (args['p'] * args['rp']) - args['rp']            
@@ -33,7 +35,15 @@ class DiscussionResource(Resource):
             return {'status': 'oke', 'diskusi': rows}, 200, {'Content-Type': 'application/json'}
         else:
             for row in qry.all():
-                rows.append(marshal(qry, Discussion.response_fields))
+                temp = marshal(row, Discussion.response_fields)
+                test = Client.query.filter(Client.client_id == row.id_pembeli).first().status
+                if (test=='seller'):
+                    writer = Seller.query.filter(Seller.client_id == row.id_pembeli).first()
+                    temp['writer'] = marshal(writer, Seller.response_fields)
+                else:
+                    writer = User.query.filter(User.client_id == row.id_pembeli).first()
+                    temp['writer'] = marshal(writer, User.response_fields)
+                rows.append(temp)
             return {'status': 'oke', 'diskusi': rows}, 200, {'Content-Type': 'application/json'}
     
     @jwt_required
@@ -53,5 +63,8 @@ class DiscussionResource(Resource):
         db.session.add(discussion)
         db.session.commit()
         return marshal(discussion, Discussion.response_fields), 200, {'Content-Type': 'application/json'}
+
+    def options(self, id=None):
+        return {}, 200
 
 api.add_resource(DiscussionResource, '/<int:id>', '')
