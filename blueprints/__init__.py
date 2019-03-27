@@ -12,7 +12,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://musica:Alta2019#@musica.cbdr6ksottly.ap-southeast-1.rds.amazonaws.com:3306'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://musica:Alta2019#@musica.cbdr6ksottly.ap-southeast-1.rds.amazonaws.com:3306/musica'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://alterra:Alta2019#@172.31.21.6:3306/dbmusica'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@0.0.0.0:3306/musica_project'
 
