@@ -8,10 +8,10 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
-from flask_cors import CORS
+# from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://musica:Alta2019#@musica.cbdr6ksottly.ap-southeast-1.rds.amazonaws.com:3306/musica'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://alterra:Alta2019#@172.31.21.6:3306/dbmusica'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@0.0.0.0:3306/musica_project'
